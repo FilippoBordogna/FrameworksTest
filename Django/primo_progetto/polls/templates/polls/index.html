@@ -1,0 +1,14 @@
+{% load static %} <!-- Generazione dell'URL assoluto dei file statici -->
+
+<link rel="stylesheet" type="text/css" href="{% static 'polls/style.css' %}"> <!-- Inclusione del file css -->
+
+{% if latest_question_list %} <!-- Controllo la presenza di elementi nella lista -->
+    <ul> <!-- Creo una lista -->
+    {% for question in latest_question_list %} <!-- Ciclo fra le domande -->
+        <!-- <li><a href="/polls/{{ question.id }}/">{{ question.question_text }}</a></li> -->
+        <li><a href="{% url 'polls:detail' question.id %}">{{ question.question_text }}</a></li> <!-- Elemento della lista contenente il Link contenuto nella vista detail -->
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>No polls are available.</p> <!-- Comunico la mancanza di elementi -->
+{% endif %}
