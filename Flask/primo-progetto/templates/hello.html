@@ -1,0 +1,7 @@
+<!DOCTYPE html>
+<title>Hello from Flask</title>
+{% if name %} <!-- Essendo le url triggerate sia /hello che /hello/<name> controllo la presenza del parametro -->
+  <h1>Hello {{ name }}!</h1> <!-- Stampo anche il nome -->
+{% else %}
+  <h1>Hello, World!</h1>
+{% endif %}
