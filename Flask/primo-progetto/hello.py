@@ -1,7 +1,5 @@
-from flask import Flask
+from flask import Flask, url_for, request, render_template
 from markupsafe import escape
-from flask import url_for
-from flask import request
 
 app = Flask(__name__) # Creo l'istanza della classe Flask
 
@@ -22,17 +20,32 @@ def login():
 
 # ROUTE PARAMETRICHE
 
+'''
+COMMENTO PERCHE' CREA CONFLITTO
 @app.route("/<name>")
 def hello(name):
     return f"Hello, {escape(name)}!" # Protezione da Injection mediante funzione escape
 		 # f ci dice che ciò che è tra {...} è da ritenersi istruzione
+'''
 
 @app.route('/user/<username>')
 def profile(username):
     return f'Profilo di {escape(username)}'
 
+'''
+TEST MOMENTANEAMENTE DISATTIVATI PER NON INCASINARE LA SHELL
 with app.test_request_context():
     print(url_for('index'))
     print(url_for('login'))
     print(url_for('login', next='/'))
     print(url_for('profile', username='John Doe'))
+
+with app.test_request_context('/hello', method='POST'):
+    assert request.path == '/hello' # Se l'asserzione è falsa lancia errore altrimenti nulla
+    assert request.method == 'POST'
+'''
+
+@app.route('/hello/')
+@app.route('/hello/<name>')
+def hello(name=None):
+    return render_template('hello.html', name=name) # Ritorno la pagina HTML mediante template 'hello.html' a cui passo il parametro name
